@@ -4,6 +4,8 @@ import (
 	"cryptotracker/entity"
 	"cryptotracker/repository"
 	"cryptotracker/repository/filesystem"
+	"cryptotracker/rest/router"
+	"cryptotracker/service"
 	"fmt"
 	"time"
 )
@@ -11,17 +13,17 @@ import (
 func main() {
 	fmt.Println("Hello world!")
 
-	repo, err := filesystem.NewRepository("file.xml")
+	trackerRepository, err := filesystem.NewRepository("file.xml")
 	if err != nil {
 		panic(err)
 	}
 
-	wallets := repo.GetWallets()
+	svc := service.NewWalletService(trackerRepository)
 
-	for _, wallet := range wallets {
-		fmt.Printf("%d - %s (%d)\n", wallet.Id, wallet.Name, len(wallet.Transactions))
+	err = router.Start(svc)
+	if err != nil {
+		panic(err)
 	}
-
 }
 
 // TODO: move to a test

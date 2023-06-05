@@ -2,6 +2,7 @@ package service
 
 import (
 	"cryptotracker/dto"
+	"cryptotracker/entity"
 	"cryptotracker/mapper"
 	"cryptotracker/repository"
 	"fmt"
@@ -31,6 +32,22 @@ func (w *WalletService) GetWallets() []dto.WalletDTO {
 	}
 
 	return result
+}
+
+func (w *WalletService) CreateWallet(name, crypto, fiat string) (int, error) {
+	wallet, err := w.trackerRepository.InsertWallet(entity.Wallet{
+		Id:           0,
+		Name:         name,
+		Crypto:       crypto,
+		Fiat:         fiat,
+		Transactions: nil,
+	})
+
+	if err != nil {
+		return -1, err
+	}
+
+	return wallet.Id, nil
 }
 
 func getQuote(crypto string) string {

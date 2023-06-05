@@ -1,15 +1,29 @@
 package router
 
 import (
+	"cryptotracker/rest/handler"
 	ownmiddleware "cryptotracker/rest/middleware"
+	"cryptotracker/service"
+	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"net/http"
 )
 
-func Start() {
+func Start(walletService *service.WalletService) error {
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
 	r.Use(ownmiddleware.Cors)
 	r.Use(ownmiddleware.Hearthbeat)
+
+	r.Post("/wallet", handler.CreateWalletHandlerFunc(walletService))
+
+	// Start the webserver
+	srv := &http.Server{
+		Addr:    fmt.Sprintf(":%s", "8080"),
+		Handler: r,
+	}
+
+	return srv.ListenAndServe()
 }
