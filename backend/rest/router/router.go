@@ -18,6 +18,7 @@ func Start(walletService *service.WalletService) error {
 	r.Use(ownmiddleware.Hearthbeat)
 
 	r.Post("/wallet", handler.CreateWalletHandlerFunc(walletService))
+	r.Post("/wallet/{walletId}/transaction", handler.CreateTransactionHandlerFunc(walletService))
 
 	// Start the webserver
 	srv := &http.Server{

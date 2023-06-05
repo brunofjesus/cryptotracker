@@ -6,6 +6,7 @@ import (
 	"cryptotracker/mapper"
 	"cryptotracker/repository"
 	"fmt"
+	"time"
 )
 
 type WalletService struct {
@@ -48,6 +49,24 @@ func (w *WalletService) CreateWallet(name, crypto, fiat string) (int, error) {
 	}
 
 	return wallet.Id, nil
+}
+
+func (w *WalletService) CreateTransaction(
+	walletId int, investedAt time.Time, cryptoValue, cryptoAmount, fiatInvested string,
+) (int64, error) {
+
+	transaction, err := w.trackerRepository.InsertTransaction(walletId, entity.Transaction{
+		Id:           0,
+		Time:         investedAt,
+		CryptoValue:  cryptoValue,
+		CryptoAmount: cryptoAmount,
+		FiatInvested: fiatInvested,
+	})
+	if err != nil {
+		return -1, err
+	}
+
+	return transaction.Id, nil
 }
 
 func getQuote(crypto string) string {
