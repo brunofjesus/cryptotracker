@@ -17,6 +17,7 @@ func Start(walletService *service.WalletService) error {
 	r.Use(ownmiddleware.Cors)
 	r.Use(ownmiddleware.Hearthbeat)
 
+	r.Get("/wallet", handler.GetWalletsHandlerFunc(walletService))
 	r.Post("/wallet", handler.CreateWalletHandlerFunc(walletService))
 	r.Post("/wallet/{walletId}/transaction", handler.CreateTransactionHandlerFunc(walletService))
 
