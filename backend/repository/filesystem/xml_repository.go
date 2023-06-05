@@ -5,9 +5,7 @@ import (
 	"cryptotracker/repository"
 	"encoding/xml"
 	"fmt"
-	"io"
 	"os"
-	"time"
 )
 
 type root struct {
@@ -25,14 +23,14 @@ func NewRepository(filePath string) (repository.TrackerRepository, error) {
 		wallets:  []entity.Wallet{},
 	}
 
-	err := instance.load()
+	err := load(instance)
 	if err != nil {
 		return nil, err
 	}
 	return instance, nil
 }
 
-func (r *xmlRepository) load() error {
+func load(r *xmlRepository) error {
 	// Skip if the file does not exist
 	if _, err := os.Stat(r.filePath); err != nil {
 		return nil
@@ -95,7 +93,7 @@ func (r *xmlRepository) RemoveTransaction(walletId int, id int) error {
 
 func (r *xmlRepository) saveFile() error {
 	// backup previous file
-	err := r.backupFile()
+	err := backup(r.filePath)
 	if err != nil {
 		return fmt.Errorf("error backing up: %v", err)
 	}
@@ -113,51 +111,6 @@ func (r *xmlRepository) saveFile() error {
 	}
 
 	return os.WriteFile(r.filePath, fileData, 0644)
-}
-
-func (r *xmlRepository) backupFile() error {
-	// Skip if the file does not exist
-	if _, err := os.Stat(r.filePath); err != nil {
-		return nil
-	}
-
-	// Open source for reading
-	src, err := os.Open(r.filePath)
-	if err != nil {
-		return err
-	}
-	defer src.Close()
-
-	// Create new destination file
-	version := time.Now().Format("20060102T150405")
-	backupFilename := fmt.Sprintf("%s.%s", r.filePath, version)
-
-	// if destination file exists generate a new one
-	if _, err := os.Stat(backupFilename); err == nil {
-		// filename failed, try to find a new one
-		for i := 1; i < 11; i++ {
-			fileName := fmt.Sprintf("%s-%d", backupFilename, i)
-			_, err = os.Stat(fileName)
-			if err != nil {
-				backupFilename = fileName
-				break
-			}
-		}
-	}
-
-	des, err := os.Create(backupFilename)
-	if err != nil {
-		return err
-	}
-	defer des.Close()
-
-	// Back it up
-	_, err = io.Copy(des, src)
-	if err != nil {
-		return err
-	}
-
-	return des.Sync()
 }
 
 func (r *xmlRepository) nextWalletId() int {
