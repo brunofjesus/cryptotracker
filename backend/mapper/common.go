@@ -48,7 +48,7 @@ func stringsToFloat(s1 string, s2 string) (float64, float64, error) {
 		return -1, -1, err
 	}
 
-	f2, err := strconv.ParseFloat(s1, 64)
+	f2, err := strconv.ParseFloat(s2, 64)
 	if err != nil {
 		fmt.Printf("Cannot convert %s to float64: %v", s2, err)
 		return f1, -1, err
