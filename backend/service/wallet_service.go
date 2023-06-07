@@ -70,5 +70,5 @@ func (w *WalletService) CreateTransaction(
 }
 
 func getQuote(crypto string) string {
-	return "100"
+	return "25000"
 }

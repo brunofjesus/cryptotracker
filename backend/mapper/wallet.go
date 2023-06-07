@@ -40,7 +40,7 @@ func MapWalletToWalletDTO(src entity.Wallet, fetchCryptoValue func(crypto string
 		dest.ReturnOnInvestmentPercent = "100"
 	} else {
 		dest.ReturnOnInvestment = subStrings(dest.CurrentFiatValue, dest.TotalFiatInvested)
-		dest.ReturnOnInvestmentPercent = mulStrings(dest.ReturnOnInvestment, dest.TotalFiatInvested)
+		dest.ReturnOnInvestmentPercent = mulStrings(divStrings(dest.ReturnOnInvestment, dest.TotalFiatInvested), "100")
 	}
 
 	if dest.CurrentFiatValue == "0" {
