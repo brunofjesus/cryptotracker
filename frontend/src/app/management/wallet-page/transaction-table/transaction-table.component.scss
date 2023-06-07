@@ -1,0 +1,23 @@
+.no-padding {
+  //padding: 0;
+  background-color: #f8f9fa;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+::ng-deep .p-datatable {
+  .p-datatable-header {
+    border: 1px solid transparent !important;
+    padding-top: 0 !important;
+  }
+
+  .p-datatable-thead > tr > th {
+    border-top: 1px solid transparent !important;
+    border-right: 1px solid transparent !important;
+    border-left: 1px solid transparent !important;
+  }
+
+  .p-datatable-tbody > tr > td {
+    border: 1px solid transparent !important;
+  }
+}

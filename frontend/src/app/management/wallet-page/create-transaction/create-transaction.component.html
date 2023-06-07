@@ -1,0 +1,72 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+    <p-dialog header="Create Transaction" [visible]="true" [modal]="true" [style]="{width: '50vw', height:'75vw'}"
+              [maximizable]="true"
+              [draggable]="false" [resizable]="true" [closable]="false">
+
+        <div class="p-fluid mt-5">
+            <div class="field grid">
+                <label for="datetime" class="col-12 mb-2 md:col-2 md:mb-0">Date</label>
+                <div class="col-12 md:col-10">
+                    <p-calendar id="datetime"
+                                [dateFormat]="'yy-mm-dd'"
+                                formControlName="datetime"
+                                showTime="true"
+                                [hourFormat]="24"></p-calendar>
+                </div>
+            </div>
+            <div class="field grid">
+                <label for="coinValue" class="col-12 mb-2 md:col-2 md:mb-0">Coin value</label>
+                <div class="col-12 md:col-10">
+                    <p-inputNumber id="coinValue" formControlName="coinValue"
+                                   mode="currency" currency="{{currency}}"
+                                   [minFractionDigits]="2"
+                                   [maxFractionDigits]="10"
+                                   locale="en-GB">
+                    </p-inputNumber>
+                </div>
+            </div>
+            <div class="field grid">
+                <label for="coinAmount" class="col-12 mb-2 md:col-2 md:mb-0">Coin amount</label>
+                <div class="col-12 md:col-10">
+                    <p-inputNumber id="coinAmount" formControlName="coinAmount" mode="decimal"
+                                   [minFractionDigits]="2"
+                                   [maxFractionDigits]="10">
+                    </p-inputNumber>
+                </div>
+            </div>
+            <div class="field grid">
+                <label for="fiatInvested" class="col-12 mb-2 md:col-2 md:mb-0">Invested {{currency}}</label>
+                <div class="col-12 md:col-10">
+                    <p-inputNumber id="fiatInvested" formControlName="fiatInvested" mode="currency"
+                                   currency="{{currency}}"
+                                   [minFractionDigits]="2"
+                                   [maxFractionDigits]="4"
+                                   locale="en-GB">
+                    </p-inputNumber>
+                </div>
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+        <div class="mt-5 field grid">
+            <label for="keepInserting" class="col-12 mb-2 md:col-2 md:mb-0">
+                Insert another
+            </label>
+            <div class="col-12 md:col-10">
+                <p-checkbox id="keepInserting" formControlName="keepInserting" binary="true" inputId="binary"></p-checkbox>
+            </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-times" (click)="onClose.emit()" label="Cancel"
+                      styleClass="p-button-danger"></p-button>
+            <p-button icon="pi pi-check"
+                      type="submit"
+                      [disabled]="form.invalid"
+                      label="Ok"
+                      styleClass="p-button-success"></p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>

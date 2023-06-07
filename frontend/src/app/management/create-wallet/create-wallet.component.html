@@ -1,0 +1,81 @@
+<div class="px-4 pb-5">
+    <ul class="list-none p-0 m-0 flex align-items-center font-medium mb-3">
+        <li>
+            <a class="text-500 no-underline line-height-3 cursor-pointer">CryptoTracker</a>
+        </li>
+        <li class="px-2">
+            <i class="pi pi-angle-right text-500 line-height-3"></i>
+        </li>
+        <li>
+            <span class="text-900 line-height-3">Create wallet</span>
+        </li>
+    </ul>
+    <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row">
+        <div>
+            <div class="flex justify-content-start">
+                <div class="flex align-items-center justify-content-center"
+                     [ngStyle]="{width: '2rem', height: '2rem'}">
+                    <img style="width: 2rem; height: 2rem"
+                         src="assets/currency/{{form.value['coin']?.toLowerCase()}}.svg"
+                         appFallbackCoinImage/>
+                </div>
+
+                <div *ngIf="!form.value['name'] && !form.value['coin']" class="ml-2 font-medium text-3xl text-900">
+                    New Coin
+                </div>
+
+                <div *ngIf="form.value['name'] &&
+                            form.value['coin'] &&
+                form.value['name'] !== form.value['coin']"
+                     class="ml-2 font-medium text-3xl text-900">{{form.value['name']}} ({{form.value['coin']}}
+                    / {{form.value['fiatCurrency']}})
+                </div>
+                <div *ngIf="form.value['name'] &&
+                            form.value['coin'] &&
+                            form.value['name'] === form.value['coin']"
+                     class="ml-2 font-medium text-3xl text-900">{{form.value['name']}}
+                    / {{form.value['fiatCurrency']}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="p-fluid card mt-5">
+        <div class="field grid">
+            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
+            <div class="col-12 md:col-10">
+                <input id="name" formControlName="name" type="text"
+                       pInputText>
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label for="coin" class="col-12 mb-2 md:col-2 md:mb-0">Coin</label>
+            <div class="col-12 md:col-10">
+                <input id="coin" formControlName="coin" type="text"
+                       pInputText>
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label for="coin" class="col-12 mb-2 md:col-2 md:mb-0">Fiat Currency</label>
+            <div class="col-12 md:col-10">
+                <input id="fiatCurrency" formControlName="fiatCurrency" type="text"
+                       pInputText>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+        <p-button icon="pi pi-check"
+                  class="ml-1"
+                  type="submit"
+                  [disabled]="form.invalid"
+                  label="Ok"
+                  styleClass="p-button-success"></p-button>
+    </div>
+
+</form>

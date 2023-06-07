@@ -1,0 +1,12 @@
+<app-wallet-page-header *ngIf="currentWallet"
+        [currentWallet]="currentWallet"
+        [transactionCount]="currentWallet?.transactions?.length"
+></app-wallet-page-header>
+
+<app-line-chart *ngIf="currentWallet?.transactions" [transactions]="currentWallet?.transactions"></app-line-chart>
+
+<app-transaction-table
+        [walletId]="walletId"
+        [transactions]="currentWallet.transactions"
+        [currency]="walletCurrency"
+></app-transaction-table>

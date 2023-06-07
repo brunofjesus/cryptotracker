@@ -1,0 +1,97 @@
+<ng-container *ngIf="wallets.length == 0">
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <h4>Getting started!</h4>
+                <p>Please create a wallet to get started.</p>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="wallets.length > 0">
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <h4>Summary</h4>
+                <div class="mt-2" *ngFor="let currencySum of summary">
+                    <span class="block font-bold text-xl">{{currencySum.fiatCurrency}}</span>
+                    <span class="text-base font-medium">
+                        <span class="font-bold text-base">Invested: </span>
+                        {{currencySum.invested | currency:currencySum.fiatCurrency:'symbol':'1.2'}}
+                    </span>
+                    <span class="font-bold text-orange-500"> / </span>
+                    <span class="text-base font-medium">
+                        <span class="font-bold text-base">Value: </span>
+                        {{currencySum.value | currency:currencySum.fiatCurrency:'symbol':'1.2'}}
+                    </span>
+                    <span class="font-bold text-orange-500"> / </span>
+                    <span class="text-base font-medium">
+                        <span class="font-bold text-base">ROI: </span>
+                        <span class="text-{{currencySum.value >= currencySum.invested ? 'green' : 'orange'}}-500 font-medium">
+                        {{(currencySum.value - currencySum.invested) | currency:currencySum.fiatCurrency:'symbol':'1.2'}}</span>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="grid mb-3">
+        <div class="col-12 lg:col-6 xl:col-3" *ngFor="let wallet of wallets">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium">{{wallet.name}}</span>
+                        <span class="block text-sm text-500 font-light mb-2">
+                            {{wallet.cryptoUnitValue | currency:wallet.fiat:'symbol':'1.2-10'}}
+                        </span>
+                        <div class="text-{{wallet.returnOnInvestment >= 0 ? 'green' : 'orange'}}-500 font-medium text-xl">
+                            {{wallet.currentFiatValue | currency:wallet.fiat:'symbol':'1.2-10'}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center"
+                         [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <img
+                                src="assets/currency/{{wallet.crypto?.toLowerCase()}}.svg"/>
+                    </div>
+                </div>
+                <span class="text-{{wallet.returnOnInvestment >= 0 ? 'green' : 'orange'}}-500 font-medium">
+                {{wallet.returnOnInvestment | currency:wallet.fiat:'symbol':'1.2-10'}}
+            </span>
+                <span class="text-500">({{wallet.returnOnInvestmentPercent}}%)</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12 xl:col-6">
+            <div class="card">
+                <h5>Fiat invested asset distribution</h5>
+                <div class="xl:ml-5 xl:mr-5">
+                    <p-chart type="pie" [data]="investedData" [options]="pieOptions"
+                             [style]="{'width': '50%'}"></p-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 xl:col-6">
+            <div class="card">
+                <div class="xl:ml-5 xl:mr-5">
+                    <h5>Fiat current asset distribution</h5>
+                    <p-chart type="pie" [data]="currentValueData" [options]="pieOptions"
+                             [style]="{'width': '300px'}"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <h5>ROI %</h5>
+                <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+            </div>
+        </div>
+    </div>
+
+
+</ng-container>

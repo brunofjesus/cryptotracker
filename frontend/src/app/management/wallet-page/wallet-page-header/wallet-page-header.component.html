@@ -1,0 +1,62 @@
+<div class="px-4 pb-5">
+    <ul class="list-none p-0 m-0 flex align-items-center font-medium mb-3">
+        <li>
+            <a class="text-500 no-underline line-height-3 cursor-pointer">CryptoTracker</a>
+        </li>
+        <li class="px-2">
+            <i class="pi pi-angle-right text-500 line-height-3"></i>
+        </li>
+        <li>
+            <span class="text-900 line-height-3">{{currentWallet.name}}</span>
+        </li>
+    </ul>
+    <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row">
+        <div>
+            <div class="flex justify-content-start">
+                <div class="flex align-items-center justify-content-center"
+                     [ngStyle]="{width: '2rem', height: '2rem'}">
+                    <img style="width: 2rem; height: 2rem"
+                         src="assets/currency/{{currentWallet.crypto?.toLowerCase()}}.svg"/>
+                </div>
+                <div *ngIf="currentWallet.name !== currentWallet.crypto"
+                     class="ml-2 font-medium text-3xl text-900">{{currentWallet.name}} ({{currentWallet.crypto}}
+                    / {{walletCurrency}})
+                </div>
+                <div *ngIf="currentWallet.name === currentWallet.crypto"
+                     class="ml-2 font-medium text-3xl text-900">{{currentWallet.name}} / {{walletCurrency}}
+                </div>
+            </div>
+
+            <div class="flex align-items-center text-700 flex-wrap">
+                <div class="mr-5 flex align-items-center mt-3">
+                    <i class="pi pi-{{ walletCurrency === 'EUR' ? 'euro' : 'dollar' }} mr-2"></i>
+                    <span>{{currentWallet.cryptoUnitValue | currency:walletCurrency:'':'1.2-10'}}</span>
+                </div>
+                <div class="mr-5 flex align-items-center mt-3">
+                    <i class="pi pi-wallet mr-2"></i>
+                    <span>{{currentWallet.currentFiatValue | currency:walletCurrency:'symbol':'1.2-10'}}</span>
+                </div>
+                <div class="mr-5 flex align-items-center mt-3">
+                    <i class="pi pi-globe mr-2"></i>
+                    <span>{{transactionCount}} Transactions</span>
+                </div>
+                <div class="mr-5 flex align-items-center mt-3">
+                    <i class="pi pi-chart-line mr-2"></i>
+                    <span>{{currentWallet.returnOnInvestment | currency:walletCurrency:'symbol':'1.2-10'}} /
+                        {{currentWallet.returnOnInvestmentPercent | number:'1.1-2'}}% ROI</span>
+                </div>
+                <div class="flex align-items-center mt-3">
+                    <i class="pi pi-arrow-circle-up mr-2"></i>
+                    <span>{{currentWallet.cryptoUnitValueBreakEven | currency:walletCurrency:'symbol':'1.2-4'}}
+                        Break even</span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 lg:mt-0">
+            <p-menu #menu [popup]="true" [model]="optionsMenu"></p-menu>
+            <button
+                    (click)="menu.toggle($event)"
+                    pButton pRipple class="p-button-outlined mr-2" icon="pi pi-cog"></button>
+        </div>
+    </div>
+</div>
