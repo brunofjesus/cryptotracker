@@ -10,5 +10,5 @@ type Wallet struct {
 	Crypto string `xml:"crypto"`
 	// Fiat the fiat currency to by used (e.g: USD, EUR)
 	Fiat         string        `xml:"fiat"`
-	Transactions []Transaction `xml:"transactions"`
+	Transactions []Transaction `xml:"transaction"`
 }
