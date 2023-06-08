@@ -21,6 +21,7 @@ func Start(walletService *service.WalletService) error {
 	r.Post("/wallet", handler.CreateWalletHandlerFunc(walletService))
 	r.Put("/wallet/{walletId}", handler.EditWalletHandlerFunc(walletService))
 	r.Post("/wallet/{walletId}/transaction", handler.CreateTransactionHandlerFunc(walletService))
+	r.Delete("/wallet/{walletId}/transaction/{transactionId}", handler.DeleteTransactionHandlerFunc(walletService))
 
 	r.Handle("/*", handler.ServeFrontend())
 

@@ -80,6 +80,10 @@ func (w *WalletService) CreateTransaction(
 	return transaction.Id, nil
 }
 
+func (w *WalletService) DeleteTransaction(walletId int, transactionId int64) error {
+	return w.trackerRepository.RemoveTransaction(walletId, transactionId)
+}
+
 func getQuote(cryptoCoin string, fiat string) string {
 	value, err := yahoo.GetCurrentValue(fmt.Sprintf("%s-%s", cryptoCoin, fiat))
 	if err != nil {

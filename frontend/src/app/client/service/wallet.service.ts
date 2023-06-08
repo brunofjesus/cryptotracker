@@ -20,8 +20,9 @@ export class WalletService {
     }
 
     deleteTransaction(transaction: Transaction) {
-        //TODO: not implemented yet
-        return new Observable();
+        return this.http.delete<void>(
+            environment.apiUrl + "/wallet/" + transaction.walletId + "/transaction/" + transaction.id
+        )
     }
 
     deleteWalletById(id: number) {

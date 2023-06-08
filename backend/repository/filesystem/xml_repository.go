@@ -92,7 +92,7 @@ func (r *xmlRepository) EditWallet(wallet entity.Wallet) error {
 
 func (r *xmlRepository) InsertTransaction(walletId int, transaction entity.Transaction) (*entity.Transaction, error) {
 	i := r.getWalletIdx(walletId)
-	if i == -1 {
+	if i < 0 {
 		return nil, fmt.Errorf("wallet not found: %d", walletId)
 	}
 
@@ -110,9 +110,28 @@ func (r *xmlRepository) InsertTransaction(walletId int, transaction entity.Trans
 	return &transaction, nil
 }
 
-func (r *xmlRepository) RemoveTransaction(walletId int, id int) error {
-	//TODO implement me
-	panic("implement me")
+func (r *xmlRepository) RemoveTransaction(walletId int, transactionId int64) error {
+	i := r.getWalletIdx(walletId)
+	if i < 0 {
+		return fmt.Errorf("wallet not found: %d", walletId)
+	}
+
+	transactions := r.wallets[i].Transactions
+	transactionIdx := -1
+	for x, transaction := range transactions {
+		if transaction.Id == transactionId {
+			transactionIdx = x
+			break
+		}
+	}
+	if transactionIdx < 0 {
+		return fmt.Errorf("transaction not found: %d", transactionId)
+	}
+
+	transactions = append(transactions[:transactionIdx], transactions[transactionIdx+1:]...)
+	r.wallets[i].Transactions = transactions
+
+	return r.saveFile()
 }
 
 func (r *xmlRepository) saveFile() error {

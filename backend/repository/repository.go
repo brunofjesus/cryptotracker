@@ -8,5 +8,5 @@ type TrackerRepository interface {
 	InsertWallet(wallet entity.Wallet) (*entity.Wallet, error)
 	EditWallet(wallet entity.Wallet) error
 	InsertTransaction(walletId int, transaction entity.Transaction) (*entity.Transaction, error)
-	RemoveTransaction(walletId int, id int) error
+	RemoveTransaction(walletId int, transactionId int64) error
 }
