@@ -18,7 +18,6 @@ import {ChartModule} from "primeng/chart";
 import {CheckboxModule} from "primeng/checkbox";
 import {ChipsModule} from "primeng/chips";
 import {ChipModule} from "primeng/chip";
-import {CodeHighlighterModule} from "primeng/codehighlighter";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ColorPickerModule} from "primeng/colorpicker";
@@ -38,7 +37,6 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {KnobModule} from "primeng/knob";
-import {LightboxModule} from "primeng/lightbox";
 import {ListboxModule} from "primeng/listbox";
 import {MegaMenuModule} from "primeng/megamenu";
 import {MenuModule} from "primeng/menu";
@@ -114,7 +112,6 @@ const primeNgModules = [
     CheckboxModule,
     ChipsModule,
     ChipModule,
-    CodeHighlighterModule,
     ConfirmDialogModule,
     ConfirmPopupModule,
     ColorPickerModule,
@@ -134,7 +131,6 @@ const primeNgModules = [
     InputTextModule,
     InputTextareaModule,
     KnobModule,
-    LightboxModule,
     ListboxModule,
     MegaMenuModule,
     MenuModule,
