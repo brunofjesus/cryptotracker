@@ -13,11 +13,11 @@ backend_dependency:
 build_backend: backend_dependency
 	cd backend && GOOS=$(system) GOARCH=$(arch) go build -o out
 	mv backend/out bin/cryptotracker_$(system)_$(arch)$(extension)
-	zip bin/cryptotracker_$(system)_$(arch)_v$(version).zip bin/cryptotracker_$(system)_$(arch)$(extension)
+	zip bin/zip/cryptotracker_$(system)_$(arch)_v$(version).zip bin/cryptotracker_$(system)_$(arch)$(extension)
 
 build:
 	make bundle_frontend
-	mkdir bin
+	mkdir -p bin/zip
 	make build_backend system=windows arch=amd64 extension=.exe
 	make build_backend system=windows arch=386 extension=.exe
 	make build_backend system=darwin arch=amd64
