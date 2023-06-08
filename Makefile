@@ -12,7 +12,7 @@ backend_dependency:
 
 build_backend: backend_dependency
 	cd backend && GOOS=$(system) GOARCH=$(arch) go build -o out
-	mv backend/out bin/cryptotracker_$(system)_$(arch)_$(extension)
+	mv backend/out bin/cryptotracker_$(system)_$(arch)$(extension)
 
 build:
 	make bundle_frontend
