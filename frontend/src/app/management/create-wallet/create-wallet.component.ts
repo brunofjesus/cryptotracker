@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EventService} from "../../shared/service/event.service";
 import {EventEnum} from "../../shared/service/model/event-enum";
@@ -18,10 +18,10 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
 
     walletInEdition: Wallet;
 
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     constructor(
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
         private walletService: WalletService,
         private router: Router,
         private route: ActivatedRoute,
