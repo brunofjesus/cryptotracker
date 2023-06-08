@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {EventService} from "../../../shared/service/event.service";
 import {EventEnum} from "../../../shared/service/model/event-enum";
@@ -23,10 +23,10 @@ export class CreateTransactionComponent implements OnInit {
     @Output()
     onClose = new EventEmitter<void>();
 
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     constructor(
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
         private walletService: WalletService,
         private messageService: MessageService,
         private eventService: EventService
