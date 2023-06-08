@@ -21,6 +21,8 @@ func Start(walletService *service.WalletService) error {
 	r.Post("/wallet", handler.CreateWalletHandlerFunc(walletService))
 	r.Post("/wallet/{walletId}/transaction", handler.CreateTransactionHandlerFunc(walletService))
 
+	r.Handle("/*", handler.ServeFrontend())
+
 	// Start the webserver
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", "8080"),
