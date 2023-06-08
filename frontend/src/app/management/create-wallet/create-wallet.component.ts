@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {EventService} from "../../shared/service/event.service";
 import {EventEnum} from "../../shared/service/model/event-enum";
 import {Subject, takeUntil} from "rxjs";
-import {Wallet} from "../../client/model/wallet";
+import {Wallet} from "../../client/model/response";
 import {WalletService} from "../../client/service/wallet.service";
 
 @Component({

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {DashboardChartConfiguration} from "./dashboardChartConfiguration";
-import {Wallet} from "../../client/model/wallet";
+import {Wallet} from "../../client/model/response";
 import {WalletService} from "../../client/service/wallet.service";
 
 @Component({

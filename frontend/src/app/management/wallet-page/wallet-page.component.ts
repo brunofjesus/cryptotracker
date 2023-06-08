@@ -1,11 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Subject, takeUntil} from "rxjs";
 import {EventService} from "../../shared/service/event.service";
 import {filter} from "rxjs/operators";
 import {EventEnum} from "../../shared/service/model/event-enum";
-import {Wallet} from "../../client/model/wallet";
+import {Wallet} from "../../client/model/response";
 import {WalletService} from "../../client/service/wallet.service";
+import {LineChartComponent} from "./line-chart/line-chart.component";
 
 @Component({
     selector: 'app-wallet-page',
@@ -19,6 +20,7 @@ export class WalletPageComponent implements OnInit, OnDestroy {
     walletId: number = null;
     walletCurrency: string;
     currentWallet: Wallet;
+
     constructor(
         private route: ActivatedRoute,
         private walletService: WalletService,
@@ -36,18 +38,11 @@ export class WalletPageComponent implements OnInit, OnDestroy {
                 event.type === EventEnum.TRANSACTION_CREATED ||
                 event.type === EventEnum.TRANSACTION_DELETED
             )).subscribe((event) => {
-            if (event.type === EventEnum.TRANSACTION_CREATED) {
-                this.currentWallet.transactions.push(event.value);
-            } else if (event.type === EventEnum.TRANSACTION_DELETED) {
-                this.currentWallet.transactions.splice(
-                    this.currentWallet.transactions.indexOf(event.value), 1
-                );
-            }
+            this.loadWallet()
+        })
+    }
 
-            this.currentWallet.transactions = this.currentWallet.transactions.sort((t1, t2) =>
-                t2.time.getDate() - t1.time.getDate()
-            );
-        });
+    ngOnInit(): void {
     }
 
     loadWallet() {
@@ -56,12 +51,18 @@ export class WalletPageComponent implements OnInit, OnDestroy {
                 const wallet = wallets.find(w => w.id == this.walletId)
 
                 this.currentWallet = wallet;
+
+                this.currentWallet.transactions = this.currentWallet.transactions.sort((t1, t2) => {
+                        const date1 = new Date(t1.time)
+                        const date2 = new Date(t2.time)
+                        return date2.getTime() - date1.getTime()
+                    }
+                );
+
                 this.walletCurrency = wallet.fiat;
             })
     }
 
-    ngOnInit(): void {
-    }
 
     ngOnDestroy(): void {
         this.destroy$.next();

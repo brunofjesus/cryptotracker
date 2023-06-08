@@ -10,7 +10,7 @@ import (
 func main() {
 	fmt.Println("Hello world!")
 
-	trackerRepository, err := filesystem.NewRepository("file.xml")
+	trackerRepository, err := filesystem.NewRepository("cryptotracker.xml")
 	if err != nil {
 		panic(err)
 	}

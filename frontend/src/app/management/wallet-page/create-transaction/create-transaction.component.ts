@@ -4,7 +4,8 @@ import {MessageService} from "primeng/api";
 import {EventService} from "../../../shared/service/event.service";
 import {EventEnum} from "../../../shared/service/model/event-enum";
 import {WalletService} from "../../../client/service/wallet.service";
-import {Transaction} from "../../../client/model/wallet";
+import {Transaction} from "../../../client/model/response";
+import {CreateTransactionRequest} from "../../../client/model/request";
 
 @Component({
     selector: 'app-create-transaction',
@@ -45,34 +46,31 @@ export class CreateTransactionComponent implements OnInit {
     }
 
     submit() {
-        const transaction: Transaction = {
-            id: 0,
-            walletId: this.walletId,
+        const transaction: CreateTransactionRequest = {
             time: this.form.value['datetime'],
             cryptoValue: this.form.value['coinValue'].toString(),
             cryptoAmount: this.form.value['coinAmount'].toString(),
             fiatInvested: this.form.value['fiatInvested'].toString()
         }
-        //TODO: not implemented yet
-        // this.walletService.addTransaction(transaction)
-        //     .subscribe({
-        //         next: (transaction) => {
-        //             this.messageService.add({
-        //                 severity: 'success',
-        //                 summary: 'Transaction created'
-        //             });
-        //
-        //             this.eventService.emitEvent({
-        //                 type: EventEnum.TRANSACTION_CREATED,
-        //                 value: transaction
-        //             });
-        //
-        //             if (this.form.value["keepInserting"]) {
-        //                 this.form.reset();
-        //             } else {
-        //                 this.onClose.emit();
-        //             }
-        //         }
-        //     });
+        this.walletService.addTransaction(this.walletId, transaction)
+            .subscribe({
+                next: (transactionId) => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Transaction created'
+                    });
+
+                    this.eventService.emitEvent({
+                        type: EventEnum.TRANSACTION_CREATED,
+                        value: transactionId
+                    });
+
+                    if (this.form.value["keepInserting"]) {
+                        this.form.reset();
+                    } else {
+                        this.onClose.emit();
+                    }
+                }
+            });
     }
 }

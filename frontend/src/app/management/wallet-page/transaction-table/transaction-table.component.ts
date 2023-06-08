@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {EventService} from "../../../shared/service/event.service";
 import {EventEnum} from "../../../shared/service/model/event-enum";
-import {Transaction} from "../../../client/model/wallet";
+import {Transaction} from "../../../client/model/response";
 import {WalletService} from "../../../client/service/wallet.service";
 
 @Component({

@@ -3,7 +3,7 @@ import {ConfirmationService, MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
 import {EventService} from "../../../shared/service/event.service";
 import {EventEnum} from "../../../shared/service/model/event-enum";
-import {Wallet} from "../../../client/model/wallet";
+import {Wallet} from "../../../client/model/response";
 import {WalletService} from "../../../client/service/wallet.service";
 
 @Component({

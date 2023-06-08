@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DatePipe} from "@angular/common";
-import {Transaction} from "../../../client/model/wallet";
+import {Transaction} from "../../../client/model/response";
 
 @Component({
     selector: 'app-line-chart',
@@ -48,6 +48,16 @@ export class LineChartComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        let previousTransactionLen = 0
+        setInterval(() => {
+            if (this.transactions.length != previousTransactionLen) {
+                previousTransactionLen = this.transactions.length
+                this.load()
+            }
+        }, 100)
+    }
+
+    load(): void {
         const reversedChart = [...this.transactions].reverse();
 
         this.lineData = {
