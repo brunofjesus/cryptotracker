@@ -78,12 +78,4 @@ func getQuote(cryptoCoin string, fiat string) string {
 		return "-1"
 	}
 	return value
-	//q, err := crypto.Get(fmt.Sprintf("%s-%s", cryptoCoin, fiat))
-	//if err != nil {
-	//	log.Print(err)
-	//	return "-1"
-	//}
-	//
-	//return fmt.Sprintf("%f", q.Ask)
-	//return "25000"
 }
