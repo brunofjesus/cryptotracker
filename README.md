@@ -24,3 +24,7 @@ Flags:
 ```
 
 ## Screenshots
+
+<img src="screenshot/dashboard.png" style="padding: 5px; width: 300px">
+<img src="screenshot/wallet.png" style="padding: 5px; width: 300px">
+<img src="screenshot/addtransaction.png" style="padding: 5px; width: 300px">
