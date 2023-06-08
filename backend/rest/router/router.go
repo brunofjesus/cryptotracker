@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func Start(walletService *service.WalletService) error {
+func Start(walletService *service.WalletService, host string, port int) error {
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
@@ -28,7 +28,7 @@ func Start(walletService *service.WalletService) error {
 
 	// Start the webserver
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%s", "8080"),
+		Addr:    fmt.Sprintf("%s:%d", host, port),
 		Handler: r,
 	}
 

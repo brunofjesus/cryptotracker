@@ -11,8 +11,8 @@ backend_dependency:
 	cd backend && go mod download
 
 build_backend: backend_dependency
-	cd backend/cmd && GOOS=$(system) GOARCH=$(arch) go build -o cryptotracker
-	mv backend/cmd/cryptotracker bin/cryptotracker_$(system)_$(arch)$(extension)
+	cd backend && GOOS=$(system) GOARCH=$(arch) go build -o out
+	mv backend/out bin/cryptotracker_$(system)_$(arch)_$(extension)
 
 build:
 	make bundle_frontend
