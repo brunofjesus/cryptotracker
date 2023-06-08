@@ -6,12 +6,12 @@ import (
 )
 
 // MapWalletToWalletDTO converts an entity.Wallet to a dto.WalletDTO.
-func MapWalletToWalletDTO(src entity.Wallet, fetchCryptoValue func(crypto string) string, dest *dto.WalletDTO) error {
+func MapWalletToWalletDTO(src entity.Wallet, fetchCryptoValue func(crypto string, fiat string) string, dest *dto.WalletDTO) error {
 	dest.Id = src.Id
 	dest.Name = src.Name
 	dest.Crypto = src.Crypto
 	dest.Fiat = src.Fiat
-	dest.CryptoUnitValue = fetchCryptoValue(dest.Crypto)
+	dest.CryptoUnitValue = fetchCryptoValue(dest.Crypto, dest.Fiat)
 
 	var transactions = make([]dto.TransactionDTO, 0, len(src.Transactions))
 	var totalCryptoAmount float64 = 0

@@ -1,11 +1,13 @@
 package service
 
 import (
+	"cryptotracker/client/yahoo"
 	"cryptotracker/dto"
 	"cryptotracker/entity"
 	"cryptotracker/mapper"
 	"cryptotracker/repository"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -69,6 +71,19 @@ func (w *WalletService) CreateTransaction(
 	return transaction.Id, nil
 }
 
-func getQuote(crypto string) string {
-	return "25000"
+func getQuote(cryptoCoin string, fiat string) string {
+	value, err := yahoo.GetCurrentValue(fmt.Sprintf("%s-%s", cryptoCoin, fiat))
+	if err != nil {
+		log.Print(err)
+		return "-1"
+	}
+	return value
+	//q, err := crypto.Get(fmt.Sprintf("%s-%s", cryptoCoin, fiat))
+	//if err != nil {
+	//	log.Print(err)
+	//	return "-1"
+	//}
+	//
+	//return fmt.Sprintf("%f", q.Ask)
+	//return "25000"
 }
