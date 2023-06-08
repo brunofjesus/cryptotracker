@@ -4,6 +4,7 @@ import (
 	"cryptotracker/entity"
 	"cryptotracker/repository"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -55,6 +56,14 @@ func (r *xmlRepository) GetWallets() []entity.Wallet {
 	return r.wallets
 }
 
+func (r *xmlRepository) GetWallet(id int) *entity.Wallet {
+	idx := r.getWalletIdx(id)
+	if idx > -1 {
+		return &r.wallets[idx]
+	}
+	return nil
+}
+
 func (r *xmlRepository) InsertWallet(wallet entity.Wallet) (*entity.Wallet, error) {
 	wallet.Id = r.nextWalletId()
 	r.wallets = append(r.wallets, wallet)
@@ -64,6 +73,21 @@ func (r *xmlRepository) InsertWallet(wallet entity.Wallet) (*entity.Wallet, erro
 		return nil, err
 	}
 	return &wallet, nil
+}
+
+func (r *xmlRepository) EditWallet(wallet entity.Wallet) error {
+	walletIdx := r.getWalletIdx(wallet.Id)
+	if walletIdx < 0 {
+		return errors.New("wallet not found")
+	}
+
+	persistedWallet := r.wallets[walletIdx]
+	persistedWallet.Name = wallet.Name
+	persistedWallet.Crypto = wallet.Crypto
+	persistedWallet.Fiat = wallet.Fiat
+
+	r.wallets[walletIdx] = persistedWallet
+	return r.saveFile()
 }
 
 func (r *xmlRepository) InsertTransaction(walletId int, transaction entity.Transaction) (*entity.Transaction, error) {

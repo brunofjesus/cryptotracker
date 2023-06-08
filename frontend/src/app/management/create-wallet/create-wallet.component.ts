@@ -67,11 +67,14 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
         };
 
         if (this.walletInEdition) {
-            // TODO: not implemented yet
-            // this.walletService.putWalletItem(
-            //     this.form.value['id'],
-            //     this.form.value
-            // ).subscribe(handler);
+            this.walletService.editWallet(
+                this.form.value['id'],
+                {
+                    name: this.form.value['name'],
+                    crypto: this.form.value['coin'],
+                    fiat: this.form.value['fiatCurrency']
+                }
+            ).subscribe(handler);
         } else {
             this.walletService.createWallet({
                 name: this.form.value['name'],

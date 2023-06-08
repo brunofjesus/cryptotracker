@@ -33,6 +33,10 @@ export class WalletService {
         return this.http.post<number>(environment.apiUrl + "/wallet", param)
     }
 
+    editWallet(walletId: number, param: CreateWalletRequest): Observable<void> {
+        return this.http.put<void>(environment.apiUrl + "/wallet/" + walletId, param)
+    }
+
     addTransaction(walletId: number, param: CreateTransactionRequest): Observable<number> {
         return this.http.post<number>(environment.apiUrl + "/wallet/" + walletId + "/transaction", param)
     }

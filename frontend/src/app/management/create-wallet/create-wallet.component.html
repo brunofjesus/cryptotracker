@@ -7,7 +7,8 @@
             <i class="pi pi-angle-right text-500 line-height-3"></i>
         </li>
         <li>
-            <span class="text-900 line-height-3">Create wallet</span>
+            <span class="text-900 line-height-3" *ngIf="!walletInEdition">Create wallet</span>
+            <span class="text-900 line-height-3" *ngIf="walletInEdition">Edit wallet</span>
         </li>
     </ul>
     <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row">

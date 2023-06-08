@@ -53,6 +53,15 @@ func (w *WalletService) CreateWallet(name, crypto, fiat string) (int, error) {
 	return wallet.Id, nil
 }
 
+func (w *WalletService) EditWallet(id int, name, crypto, fiat string) error {
+	return w.trackerRepository.EditWallet(entity.Wallet{
+		Id:     id,
+		Name:   name,
+		Crypto: crypto,
+		Fiat:   fiat,
+	})
+}
+
 func (w *WalletService) CreateTransaction(
 	walletId int, investedAt time.Time, cryptoValue, cryptoAmount, fiatInvested string,
 ) (int64, error) {
