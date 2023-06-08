@@ -57,28 +57,28 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
     }
 
     submit() {
-        const handler = (wallet) => {
+        const handler = (walletId) => {
             this.eventService.emitEvent({
                 type: EventEnum.WALLET_CREATED,
-                value: wallet
+                value: walletId
             });
 
-            this.router.navigate(['/wallets', wallet.id]);
+            this.router.navigate(['/wallets', walletId]);
         };
 
-        //TODO: not implemented yet
-        // if (this.walletInEdition) {
-        //     this.walletService.putWalletItem(
-        //         this.form.value['id'],
-        //         this.form.value
-        //     ).subscribe(handler);
-        // } else {
-        //     this.walletService.postWalletCollection({
-        //         name: this.form.value['name'],
-        //         coin: this.form.value['coin'],
-        //         fiatCurrency: this.form.value['fiatCurrency']
-        //     }).subscribe(handler);
-        // }
+        if (this.walletInEdition) {
+            // TODO: not implemented yet
+            // this.walletService.putWalletItem(
+            //     this.form.value['id'],
+            //     this.form.value
+            // ).subscribe(handler);
+        } else {
+            this.walletService.createWallet({
+                name: this.form.value['name'],
+                crypto: this.form.value['coin'],
+                fiat: this.form.value['fiatCurrency']
+            }).subscribe(handler);
+        }
     }
 
     ngOnDestroy(): void {
