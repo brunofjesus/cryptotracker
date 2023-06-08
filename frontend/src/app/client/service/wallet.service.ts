@@ -19,15 +19,14 @@ export class WalletService {
         return this.http.get<Wallet[]>(environment.apiUrl + "/wallet")
     }
 
-    deleteTransaction(transaction: Transaction) {
+    deleteTransaction(walletId: number, transactionId: number) {
         return this.http.delete<void>(
-            environment.apiUrl + "/wallet/" + transaction.walletId + "/transaction/" + transaction.id
+            environment.apiUrl + "/wallet/" + walletId + "/transaction/" + transactionId
         )
     }
 
     deleteWalletById(id: number) {
-        //TODO: not implemented yet
-        return new Observable();
+        return this.http.delete<void>(environment.apiUrl + "/wallet/" + id)
     }
 
     createWallet(param: CreateWalletRequest): Observable<number> {

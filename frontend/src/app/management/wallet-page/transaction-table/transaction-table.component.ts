@@ -45,7 +45,7 @@ export class TransactionTableComponent implements OnInit {
             header: 'Delete Confirmation',
             icon: 'pi pi-info-circle',
             accept: () => {
-                this.walletService.deleteTransaction(selectedItem)
+                this.walletService.deleteTransaction(selectedItem.walletId, selectedItem.id)
                     .subscribe({
                         next: () => {
                             this.messageService.add({severity: 'success', summary: 'Transaction deleted'});
