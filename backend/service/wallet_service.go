@@ -62,6 +62,10 @@ func (w *WalletService) EditWallet(id int, name, crypto, fiat string) error {
 	})
 }
 
+func (w *WalletService) DeleteWallet(id int) error {
+	return w.trackerRepository.RemoveWallet(id)
+}
+
 func (w *WalletService) CreateTransaction(
 	walletId int, investedAt time.Time, cryptoValue, cryptoAmount, fiatInvested string,
 ) (int64, error) {

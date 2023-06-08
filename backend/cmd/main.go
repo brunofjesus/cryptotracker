@@ -2,6 +2,7 @@ package main
 
 import (
 	"cryptotracker/repository/filesystem"
+	"cryptotracker/repository/filesystem/persistence"
 	"cryptotracker/rest/router"
 	"cryptotracker/service"
 	"fmt"
@@ -10,7 +11,10 @@ import (
 func main() {
 	fmt.Println("Hello world!")
 
-	trackerRepository, err := filesystem.NewRepository("cryptotracker.xml")
+	trackerRepository, err := filesystem.NewFsRepository(
+		persistence.NewXmlPersistence("cryptotracker.xml"),
+	)
+
 	if err != nil {
 		panic(err)
 	}
