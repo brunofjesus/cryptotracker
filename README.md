@@ -1,6 +1,6 @@
 # Crypto Tracker
 
-Crypto Tracker allows you to track your crypto portfolio through a web app.
+Crypto Tracker allows you to track your crypto portfolio through a **local** web app.
 
 The web app is self contained in a binary file, you just need to execute it and your browser
 will pop up with the application ready for you to use.
