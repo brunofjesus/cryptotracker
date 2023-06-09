@@ -15,7 +15,10 @@ build_backend: backend_dependency
 	mv backend/out bin/cryptotracker_$(system)_$(arch)$(extension)
 	zip bin/zip/cryptotracker_$(system)_$(arch)_v$(version).zip bin/cryptotracker_$(system)_$(arch)$(extension)
 
-build:
+clean:
+	rm -rf bin
+
+build: clean
 	make bundle_frontend
 	mkdir -p bin/zip
 	make build_backend system=windows arch=amd64 extension=.exe
