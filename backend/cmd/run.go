@@ -32,9 +32,11 @@ var runCmd = &cobra.Command{
 
 		svc := service.NewWalletService(trackerRepository)
 
-		time.AfterFunc(1*time.Second, func() {
-			openBrowser(fmt.Sprintf("http://%s:%d", Host, Port))
-		})
+		if OpenBrowser == true {
+			time.AfterFunc(1*time.Second, func() {
+				openBrowser(fmt.Sprintf("http://%s:%d", Host, Port))
+			})
+		}
 
 		err = router.Start(svc, Host, Port)
 		if err != nil {

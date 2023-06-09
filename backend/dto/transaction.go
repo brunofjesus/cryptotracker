@@ -1,17 +1,20 @@
 package dto
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 type TransactionDTO struct {
-	Id                     int64     `json:"id"`
-	WalletId               int       `json:"walletId"`
-	Time                   time.Time `json:"time"`
-	CryptoValue            string    `json:"cryptoValue"`
-	CryptoAmount           string    `json:"cryptoAmount"`
-	FiatInvested           string    `json:"fiatInvested"`
-	FiatValue              string    `json:"fiatValue"`
-	TotalCryptoAmount      string    `json:"totalCryptoAmount"`
-	TotalFiatInvested      string    `json:"totalFiatInvested"`
-	FiatWalletValue        string    `json:"fiatWalletValue"`
-	FiatReturnOnInvestment string    `json:"fiatReturnOnInvestment"`
+	Id                     int64           `json:"id"`
+	WalletId               int             `json:"walletId"`
+	Time                   time.Time       `json:"time"`
+	CryptoValue            decimal.Decimal `json:"cryptoValue"`
+	CryptoAmount           decimal.Decimal `json:"cryptoAmount"`
+	FiatInvested           decimal.Decimal `json:"fiatInvested"`
+	FiatValue              decimal.Decimal `json:"fiatValue"`
+	TotalCryptoAmount      decimal.Decimal `json:"totalCryptoAmount"`
+	TotalFiatInvested      decimal.Decimal `json:"totalFiatInvested"`
+	FiatWalletValue        decimal.Decimal `json:"fiatWalletValue"`
+	FiatReturnOnInvestment decimal.Decimal `json:"fiatReturnOnInvestment"`
 }

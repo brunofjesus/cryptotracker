@@ -3,6 +3,8 @@ package mapper
 import (
 	"cryptotracker/dto"
 	"cryptotracker/entity"
+	"github.com/shopspring/decimal"
+	"log"
 )
 
 // MapWalletToWalletDTO converts an entity.Wallet to a dto.WalletDTO.
@@ -11,45 +13,53 @@ func MapWalletToWalletDTO(src entity.Wallet, fetchCryptoValue func(crypto string
 	dest.Name = src.Name
 	dest.Crypto = src.Crypto
 	dest.Fiat = src.Fiat
-	dest.CryptoUnitValue = fetchCryptoValue(dest.Crypto, dest.Fiat)
+	dest.CryptoUnitValue, _ = decimal.NewFromString(fetchCryptoValue(dest.Crypto, dest.Fiat))
 
 	var transactions = make([]dto.TransactionDTO, 0, len(src.Transactions))
-	var totalCryptoAmount float64 = 0
-	var totalFiatInvested float64 = 0
+	var totalCryptoAmount = decimal.Zero
+	var totalFiatInvested = decimal.Zero
 	for _, transaction := range src.Transactions {
-		totalCryptoAmount = sumStringAndFloat(totalCryptoAmount, transaction.CryptoAmount)
-		totalFiatInvested = sumStringAndFloat(totalFiatInvested, transaction.FiatInvested)
+		transactionAmount, err := decimal.NewFromString(transaction.CryptoAmount)
+		if err != nil {
+			log.Print(err)
+		}
+
+		transactionFiatInvested, err := decimal.NewFromString(transaction.FiatInvested)
+		if err != nil {
+			log.Print(err)
+		}
+
+		totalCryptoAmount = totalCryptoAmount.Add(transactionAmount)
+		totalFiatInvested = totalFiatInvested.Add(transactionFiatInvested)
 
 		var transactionDto dto.TransactionDTO
 		transactionDto.WalletId = src.Id
-		transactionDto.TotalCryptoAmount = float64ToString(totalCryptoAmount)
-		transactionDto.TotalFiatInvested = float64ToString(totalFiatInvested)
+		transactionDto.TotalCryptoAmount = totalCryptoAmount
+		transactionDto.TotalFiatInvested = totalFiatInvested
 		MapTransactionToTransactionDTO(transaction, &transactionDto)
 
 		transactions = append(transactions, transactionDto)
 	}
 
 	dest.Transactions = transactions
-	dest.TotalCryptoAmount = float64ToString(totalCryptoAmount)
-	dest.TotalFiatInvested = float64ToString(totalFiatInvested)
+	dest.TotalCryptoAmount = totalCryptoAmount
+	dest.TotalFiatInvested = totalFiatInvested
 
-	dest.CurrentFiatValue = mulStrings(dest.CryptoUnitValue, dest.TotalCryptoAmount)
+	dest.CurrentFiatValue = dest.CryptoUnitValue.Mul(dest.TotalCryptoAmount)
 
-	if totalFiatInvested <= 0 {
-		dest.ReturnOnInvestment = "0"
-		dest.ReturnOnInvestmentPercent = "100"
+	if totalFiatInvested.IsZero() || totalFiatInvested.IsNegative() {
+		dest.ReturnOnInvestment = decimal.Zero
+		dest.ReturnOnInvestmentPercent = decimal.NewFromInt(100)
 	} else {
-		dest.ReturnOnInvestment = subStrings(dest.CurrentFiatValue, dest.TotalFiatInvested)
-		dest.ReturnOnInvestmentPercent = mulStrings(divStrings(dest.ReturnOnInvestment, dest.TotalFiatInvested), "100")
+		dest.ReturnOnInvestment = dest.CurrentFiatValue.Sub(dest.TotalFiatInvested)
+		dest.ReturnOnInvestmentPercent = dest.ReturnOnInvestment.Div(dest.TotalFiatInvested).
+			Mul(decimal.NewFromInt(100))
 	}
 
-	if dest.CurrentFiatValue == "0" {
-		dest.CryptoUnitValueBreakEven = "0"
+	if dest.CurrentFiatValue.IsZero() {
+		dest.CryptoUnitValueBreakEven = decimal.Zero
 	} else {
-		dest.CryptoUnitValueBreakEven = divStrings(
-			mulStrings(dest.CryptoUnitValue, dest.TotalFiatInvested),
-			dest.CurrentFiatValue,
-		)
+		dest.CryptoUnitValueBreakEven = dest.CryptoUnitValue.Mul(dest.TotalFiatInvested).Div(dest.CurrentFiatValue)
 	}
 
 	return nil
